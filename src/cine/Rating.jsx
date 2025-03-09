@@ -9,7 +9,7 @@ export default function Rating({value}){
             stars.map((star, index) => (
                 <img
                 key={index}
-                src={star}
+                src={Star}
                 width={14}
                 height={14}
                 alt='star'
