@@ -5,15 +5,15 @@ import Checkout from '../assets/icons/checkout.svg'
 import Delete from '../assets/delete.svg'
 
 export default function CartDetails({ onCloseCart }) {
-  const { cartData, setCartData } = useContext(MovieContext);
+  const { state, dispatch } = useContext(MovieContext);
 
-  const handleDelete = (event, itemId)=>{
+  const handleDelete = (event, item)=>{
     event.preventDefault();
 
-    const filtered = cartData.filter(d => {
-        return d.id !== itemId;
+    dispatch({
+      type: 'REMOVE_FROM_CART',
+      payload: item
     })
-    setCartData([...filtered])
   }
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">
@@ -23,7 +23,7 @@ export default function CartDetails({ onCloseCart }) {
             Your Carts
           </h2>
           <div className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
-            {cartData.map((item) => (
+            {state.cartData.map((item) => (
               <div key={item.id} className="grid grid-cols-[1fr_auto] gap-4">
                 <div className="flex items-center gap-4">
                   <img
@@ -42,7 +42,7 @@ export default function CartDetails({ onCloseCart }) {
                   </div>
                 </div>
                 <div className="flex justify-between gap-4 items-center">
-                  <button onClick={(e)=> handleDelete(e, item.id)} className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white">
+                  <button onClick={(e)=> handleDelete(e, item)} className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white">
                     <img className="w-5 h-5" src={Delete} alt="" />
                     <span className="max-md:hidden">Remove</span>
                   </button>
